@@ -116,5 +116,7 @@ Current version: %s
     <string name="about">About</string>
 	<string name="aboutapp_not_available">Version %s\n\nNo compatible extension available to display full info (contact, credits, license).</string>
     <string name="aboutapp_get">Get OI About</string>
-    
+    <string name="get_ow">Get OpenWatch!</string>
+    <string name="no_thanks">No thanks</string>
+
 </resources>

@@ -1,49 +1,25 @@
 package org.ale.coprecord;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.ale.coprecord.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -74,19 +50,19 @@ public class MainActivity extends Activity {
         final Context c = this;
 
         final MainActivity ma = this;
-        
+
+        showDeprecatedDialog();
        
        final Button b = (Button) findViewById(R.id.aib);
        
        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
        final SharedPreferences.Editor editor = prefs.edit();
        boolean running = prefs.getBoolean("running", false);
-       
+       Log.i("MA", "onResume");
        if(running){
-           
            final Runnable stopper = new Runnable() {
                public void run(){
-                   if(mag.r_service==null){
+                   if(mag == null || mag.r_service==null){
                        System.out.println("Null RSERVICE");
                        mHandler.postDelayed(this, 100);
                    }
@@ -171,11 +147,30 @@ public class MainActivity extends Activity {
    
     public void setParentGroup(MainActivityGroup magg) {
         mag = magg;
-        System.out.println("Parent group set!");
+        Log.i("MA", "parent group set");
+        //System.out.println("Parent group set!");
     }
-    
+
+
     public FrameLayout getFL() {
         return (FrameLayout)findViewById(R.id.Recorder);
+    }
+
+    private void showDeprecatedDialog(){
+        View dialog = getLayoutInflater().inflate(R.layout.deprecated_dialog, null);
+        new AlertDialog.Builder(this).setView(dialog).setPositiveButton(R.string.get_ow, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=org.ale.openwatch"));
+                startActivity(intent);
+            }
+        }).setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
     
 }
