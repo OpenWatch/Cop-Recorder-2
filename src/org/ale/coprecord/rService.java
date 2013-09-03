@@ -100,6 +100,7 @@ public class rService extends Service{
 
     @Override
     public void onCreate() {
+        Log.i("rService", "onCreate");
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         try {
             mStartForeground = getClass().getMethod("startForeground",
@@ -124,6 +125,7 @@ public class rService extends Service{
 	public void onStart(Intent intent, int startId) {	
 		super.onStart(intent, startId);
 		handleCommand(intent);
+        Log.i("rService", "onStart");
 		}
 	
     @Override
@@ -148,7 +150,7 @@ public class rService extends Service{
         
         if (ACTION_FOREGROUND.equals(intent.getAction())) {
             // In this sample, we'll use the same text for the ticker and the expanded notification
-            CharSequence text = foreground_service_started;
+            CharSequence text ="";
 
             // Set the icon, scrolling text and timestamp
             Notification notification = new Notification(R.drawable.icon, text,
@@ -159,7 +161,7 @@ public class rService extends Service{
                     new Intent(this, MainActivity.class), 0);
 
             // Set the info for the views that show in the notification panel.
-            notification.setLatestEventInfo(this, "derrppp",
+            notification.setLatestEventInfo(this, getString(R.string.app_name),
                            text, contentIntent);
 
             startForegroundCompat(1, notification);
@@ -185,7 +187,8 @@ public class rService extends Service{
         // Fall back on the old API.
         mSetForegroundArgs[0] = Boolean.TRUE;
         invokeMethod(mSetForeground, mSetForegroundArgs);
-        mNM.notify(id, notification);
+        // Don't show "derp" notification...
+        //mNM.notify(id, notification);
     }
 
     /**
