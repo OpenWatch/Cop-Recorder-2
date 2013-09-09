@@ -1,28 +1,18 @@
 package org.ale.coprecord;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.lang.System;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.ale.coprecord.recordService;
 
 public class rService extends Service{
     
@@ -158,10 +148,10 @@ public class rService extends Service{
 
             // The PendingIntent to launch our activity if the user selects this notification
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, MainActivity.class), 0);
+                    new Intent(this, MainActivityGroup.class), 0);
 
             // Set the info for the views that show in the notification panel.
-            notification.setLatestEventInfo(this, getString(R.string.app_name),
+            notification.setLatestEventInfo(this, "CR2 Active",
                            text, contentIntent);
 
             startForegroundCompat(1, notification);

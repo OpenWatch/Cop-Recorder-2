@@ -118,5 +118,8 @@ Current version: %s
     <string name="aboutapp_get">Get OI About</string>
     <string name="get_ow">Get OpenWatch!</string>
     <string name="no_thanks">No thanks</string>
+    <string name="incomplete_submission">Incomplete Submission</string>
+    <string name="title_desc_are_required">Please provide a title and public description before submitting.</string>
+    <string name="dialog_ok">Ok</string>
 
 </resources>

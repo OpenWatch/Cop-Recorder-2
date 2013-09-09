@@ -1,15 +1,8 @@
 package org.ale.coprecord;
 
-import org.ale.coprecord.MyLocation.LocationResult;
-import org.ale.coprecord.R;
-import org.ale.coprecord.uploadService;
-
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
+import android.app.AlertDialog;
+import android.content.*;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,13 +11,14 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import org.ale.coprecord.MyLocation.LocationResult;
 
 public class DescribeActivity extends Activity{
      
@@ -84,7 +78,15 @@ public class DescribeActivity extends Activity{
 
 			public void onClick(View v) {
 				if(title.getText().toString().equals("") || pub_desc.getText().toString().equals("")){
-					return;
+                    new AlertDialog.Builder(DescribeActivity.this).setTitle(getString(R.string.incomplete_submission))
+                            .setMessage(getString(R.string.title_desc_are_required))
+                            .setPositiveButton(getString(R.string.dialog_ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                    return;
 				}
 				
 				b.setPressed(true);

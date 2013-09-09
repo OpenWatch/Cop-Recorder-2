@@ -39,9 +39,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
-        
         c = this;
-        
+    }
+
+    @Override
+    public void onDestroy(){
+
+        try {
+            if(mag != null && mag.r_service != null && !mag.r_service.running()){
+                stopService(new Intent(c, rService.class));
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
     }
     
     public void onResume() {
@@ -51,8 +62,6 @@ public class MainActivity extends Activity {
 
         final MainActivity ma = this;
 
-        showDeprecatedDialog();
-       
        final Button b = (Button) findViewById(R.id.aib);
        
        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -98,6 +107,8 @@ public class MainActivity extends Activity {
                                  }
                                });
                                alert2.show();
+                           }else{
+                               showDeprecatedDialog();
                            }
                        } catch (RemoteException e) {
                            // TODO Auto-generated catch block
@@ -107,7 +118,7 @@ public class MainActivity extends Activity {
                }
            };
            
-           mHandler.postDelayed(stopper,100);
+           mHandler.postDelayed(stopper, 100);
            
        }
        
