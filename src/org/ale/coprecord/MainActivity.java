@@ -44,9 +44,8 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy(){
-
         try {
-            if(mag != null && mag.r_service != null && !mag.r_service.running()){
+            if(!recording && mag != null && mag.r_service != null && !mag.r_service.running()){
                 stopService(new Intent(c, rService.class));
             }
         } catch (RemoteException e) {
@@ -148,6 +147,7 @@ public class MainActivity extends Activity {
                editor.commit();
                Toast.makeText(c, "Recording started!", Toast.LENGTH_SHORT).show();
                b.setBackgroundResource(R.drawable.buttonpressed);
+               recording = true;
                finish();
                return true;
                        }
